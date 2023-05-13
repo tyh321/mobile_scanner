@@ -7,6 +7,15 @@ import 'package:mobile_scanner/src/web/base.dart';
 Future<void> loadScript(JsLibrary library) async {
   dynamic amd;
   dynamic define;
+
+  //
+  final libAlreadyThere =
+      html.querySelector('head script[src="${library.url}"]');
+  if (libAlreadyThere != null) {
+    // whenever user already loaded exactly the expected lib, skip.
+    return;
+  }
+
   // ignore: avoid_dynamic_calls
   if (library.usesRequireJs && context['define']?['amd'] != null) {
     // In dev, requireJs is loaded in. Disable it here.
