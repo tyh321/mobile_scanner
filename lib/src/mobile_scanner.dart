@@ -121,9 +121,9 @@ class _MobileScannerState extends State<MobileScanner>
     );
 
     if (!_controller.autoStart) {
-      debugPrint(
+      /*debugPrint(
         'mobile_scanner: not starting automatically because autoStart is set to false in the controller.',
-      );
+      );*/
       return;
     }
 
