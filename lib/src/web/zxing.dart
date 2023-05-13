@@ -170,7 +170,7 @@ extension JsZXingBrowserMultiFormatReaderExt
 
 const zxingJsLibrary = JsLibrary(
   contextName: 'ZXing',
-  url: 'https://cdn.jsdelivr.net/npm/@zxing/library@0.19.1/umd/index.js',
+  url: 'https://unpkg.com/browse/@zxing/library@0.20.0/esm/index.js',
   usesRequireJs: true,
 );
 
