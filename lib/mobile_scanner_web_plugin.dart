@@ -61,6 +61,8 @@ class MobileScannerWebPlugin {
   Future<dynamic> handleMethodCall(MethodCall call) async {
     await _jsLibrariesLoadingFuture;
     switch (call.method) {
+      case 'updateScanWindow':
+        return;
       case 'start':
         return _start(call.arguments as Map);
       case 'torch':
