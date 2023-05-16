@@ -49,6 +49,9 @@ class MobileScanner extends StatefulWidget {
   /// If this is null, a black [ColoredBox] is used as placeholder.
   final Widget Function(BuildContext, Widget?)? placeholderBuilder;
 
+  ///
+  final Widget Function(BuildContext)? overlayBuilder;
+
   /// if set barcodes will only be scanned if they fall within this [Rect]
   /// useful for having a cut-out overlay for example. these [Rect]
   /// coordinates are relative to the widget size, so by how much your
@@ -67,6 +70,7 @@ class MobileScanner extends StatefulWidget {
   const MobileScanner({
     this.controller,
     this.errorBuilder,
+    this.overlayBuilder,
     this.fit = BoxFit.cover,
     required this.onDetect,
     @Deprecated('Use onScannerStarted() instead.') this.onStart,
@@ -259,12 +263,19 @@ class _MobileScannerState extends State<MobileScanner>
                     size: constraints.biggest,
                     child: FittedBox(
                       fit: widget.fit,
-                      child: SizedBox(
-                        width: value.size.width,
-                        height: value.size.height,
-                        child: kIsWeb
-                            ? HtmlElementView(viewType: value.webId!)
-                            : Texture(textureId: value.textureId!),
+                      child: Stack(
+                        fit: StackFit.expand,
+                        children: [
+                          SizedBox(
+                            width: value.size.width,
+                            height: value.size.height,
+                            child: kIsWeb
+                                ? HtmlElementView(viewType: value.webId!)
+                                : Texture(textureId: value.textureId!),
+                          ),
+                          if (widget.overlayBuilder != null)
+                            widget.overlayBuilder!(context),
+                        ],
                       ),
                     ),
                   );
