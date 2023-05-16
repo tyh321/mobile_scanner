@@ -331,7 +331,9 @@ class MobileScannerController {
   /// If you call this, you cannot use this controller object anymore.
   void dispose() {
     stop();
-    events?.cancel();
+    events?.cancel().catchError(
+          (_) {},
+        ); // if start / stop too quickly, might throw saying no subscription are to be canceled. Ignore it.
     _barcodesController.close();
   }
 
