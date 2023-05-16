@@ -291,7 +291,9 @@ class _MobileScannerState extends State<MobileScanner>
   void dispose() {
     _controller.updateScanWindow(null);
     WidgetsBinding.instance.removeObserver(this);
-    _barcodesSubscription?.cancel();
+    _barcodesSubscription?.cancel().catchError(
+          (_) {},
+        ); // if start / stop too quickly, might throw saying no subscription are to be canceled. Ignore it.;
     _barcodesSubscription = null;
     _controller.dispose();
     super.dispose();
