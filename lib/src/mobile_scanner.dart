@@ -256,31 +256,30 @@ class _MobileScannerState extends State<MobileScanner>
               _controller.updateScanWindow(scanWindow);
             }
 
-            return ClipRect(
-              child: LayoutBuilder(
-                builder: (_, constraints) {
-                  return SizedBox.fromSize(
-                    size: constraints.biggest,
-                    child: FittedBox(
-                      fit: widget.fit,
-                      child: Stack(
-                        fit: StackFit.expand,
-                        children: [
-                          SizedBox(
+            return Stack(
+              children: [
+                ClipRect(
+                  child: LayoutBuilder(
+                    builder: (_, constraints) {
+                      return SizedBox.fromSize(
+                        size: constraints.biggest,
+                        child: FittedBox(
+                          fit: widget.fit,
+                          child: SizedBox(
                             width: value.size.width,
                             height: value.size.height,
                             child: kIsWeb
                                 ? HtmlElementView(viewType: value.webId!)
                                 : Texture(textureId: value.textureId!),
                           ),
-                          if (widget.overlayBuilder != null)
-                            widget.overlayBuilder!(context),
-                        ],
-                      ),
-                    ),
-                  );
-                },
-              ),
+                        ),
+                      );
+                    },
+                  ),
+                ),
+                if (widget.overlayBuilder != null)
+                  widget.overlayBuilder!(context),
+              ],
             );
           },
         );
